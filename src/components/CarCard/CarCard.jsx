@@ -1,24 +1,14 @@
 import "./carcard.scss";
 
-const CarCard = ({
-  img,
-  name,
-  year,
-  newCar,
-  bgName,
-  engine,
-  drive,
-  bodytype,
-  price,
-}) => {
+const CarCard = ({ car }) => {
   return (
     <div className="card-car">
       <div className="title">
         <div className="title-name">
-          <p className="name-car">{name}</p>
-          <p className="year-car">{year}</p>
+          <p className="name-car">{car.name}</p>
+          <p className="year-car">{car.year}</p>
         </div>
-        {newCar ? (
+        {car.newCar ? (
           <div className="new-car">
             <div className="elipse-car "></div>
             <p className="name">НОВОЕ</p>
@@ -29,31 +19,31 @@ const CarCard = ({
       </div>
 
       <div className="car-image">
-        <p className="name">{bgName}</p>
+        <p className="name">{car.bgName}</p>
         <div className="img-wrapper">
-          <img src={img} alt="car-image" />
+          <img src={car.img} alt="car-image" />
         </div>
       </div>
 
       <div className="settings-car">
         <div className="engine">
           <img src="./engine.svg" alt="" />
-          <p>{engine} л.</p>
+          <p>{car.engine} л.</p>
         </div>
 
         <div className="drive">
           <img src="./drive.svg" alt="" />
-          <p>{drive}</p>
+          <p>{car.drive}</p>
         </div>
 
         <div className="bodytype">
           <img src="./bodytype.svg" alt="" />
-          <p>{bodytype}</p>
+          <p>{car.bodytype}</p>
         </div>
       </div>
 
       <div className="price">
-        <p>{price} ₽</p>
+        <p>{car.price} ₽</p>
       </div>
     </div>
   );
