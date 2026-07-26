@@ -1,0 +1,25 @@
+.settings_car-item {
+  background-color: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .settings_car-desc {
+    padding: 40px 0;
+  }
+
+  .settings_car-desc p {
+    font-size: 14px;
+    line-height: 130%;
+    letter-spacing: 0.09em;
+    color: #000;
+  }
+
+  .settings_car-desc p:first-child {
+    font-size: 12px;
+  }
+  .settings_car-desc p:last-child {
+    font-weight: 700;
+    padding: 10px 0 0;
+  }
+}

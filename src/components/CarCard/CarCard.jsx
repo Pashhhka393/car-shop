@@ -21,7 +21,7 @@ const CarCard = ({ car }) => {
       <div className="car-image">
         <p className="name">{car.bgName}</p>
         <div className="img-wrapper">
-          <img src={car.img} alt="car-image" />
+          <img src={car.mainImg} alt="car-image" />
         </div>
       </div>
 
@@ -33,12 +33,12 @@ const CarCard = ({ car }) => {
 
         <div className="drive">
           <img src="./drive.svg" alt="" />
-          <p>{car.drive}</p>
+          <p>{car.mainDrive}</p>
         </div>
 
         <div className="bodytype">
           <img src="./bodytype.svg" alt="" />
-          <p>{car.bodytype}</p>
+          <p>{car.mainBodytype}</p>
         </div>
       </div>
 
