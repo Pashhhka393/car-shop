@@ -147,7 +147,7 @@ const App = () => {
           <Cart
             cartItems={cartItems}
             handleClearCart={handleClearCart}
-            removeAllCard={removeAllCard}
+            removeFromCard={removeFromCard}
           />
         }
       ></Route>
