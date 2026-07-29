@@ -89,6 +89,12 @@
         display: flex;
         flex-direction: column;
 
+        .in-cart-btn {
+          background: lightgreen;
+          border: none;
+          color: #fff;
+        }
+
         button {
           padding: 16px 0;
           margin: 10px 0;

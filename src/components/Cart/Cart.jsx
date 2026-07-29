@@ -1,0 +1,45 @@
+import CartItem from "./CartItem/CartItem";
+import { Link } from "react-router-dom";
+import "./cart.scss";
+import EmptyCart from "./EmptyCart/EmptyCart";
+
+const Cart = ({ cartItems, removeFromCard, removeAllCard }) => {
+  return (
+    <>
+      {cartItems.length === 0 ? (
+        <EmptyCart />
+      ) : (
+        <div className="cart">
+          <div className="container">
+            <div className="header-cart">
+              <div className="header-info">
+                <h1>Корзина: </h1>
+                <p>{cartItems.length} авто</p>
+              </div>
+              <div className="cart-navigation">
+                <button onClick={removeAllCard}>Очистить корзину</button>
+                <Link to="/">
+                  <button>На главную</button>
+                </Link>
+              </div>
+            </div>
+
+            <div className="cart-items">
+              {cartItems.map((car) => {
+                return (
+                  <CartItem
+                    key={car.id}
+                    car={car}
+                    removeFromCard={removeFromCard}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Cart;

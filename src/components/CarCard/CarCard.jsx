@@ -2,7 +2,7 @@ import "./carcard.scss";
 
 const CarCard = ({ car }) => {
   return (
-    <div className="card-car">
+    <div className="card-car search-color">
       <div className="title">
         <div className="title-name">
           <p className="name-car">{car.name}</p>

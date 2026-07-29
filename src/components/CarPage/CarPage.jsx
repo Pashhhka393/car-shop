@@ -1,11 +1,17 @@
+import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import CharacterCar from "./CharacterCar/CharacterCar";
 import SetCarPage from "./SetCatPage/SetCarPage";
 import "./carpage.scss";
+import ModalWindow from "../UI/ModalWindow/ModalWindow";
 
-const CarPage = ({ cars }) => {
+const CarPage = ({ cars, addCarToCart, modalWindowCartOpen }) => {
   const { id } = useParams();
-  const car = cars.find((car) => car.id == Number(id));
+  const car = cars.find((c) => c.id == Number(id));
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!car) {
     return <div>Машина не найдена!</div>;
@@ -101,14 +107,26 @@ const CarPage = ({ cars }) => {
                   valueTitle={car.otherBodyType}
                 />
               </div>
-              <div className="specifications-btn">
-                <button>В КОРЗИНУ</button>
-                <button>В ИЗБРАННОЕ</button>
-              </div>
+
+              {car.inCart ? (
+                <div className="specifications-btn">
+                  <button className="in-cart-btn">В КОРЗИНЕ</button>
+                  <button>В ИЗБРАННОЕ</button>
+                </div>
+              ) : (
+                <div
+                  className="specifications-btn"
+                  onClick={() => addCarToCart(car)}
+                >
+                  <button className="not-in-cart-btn">В КОРЗИНУ</button>
+                  <button>В ИЗБРАННОЕ</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
+      {modalWindowCartOpen ? <ModalWindow car={car} /> : ""}
     </div>
   );
 };

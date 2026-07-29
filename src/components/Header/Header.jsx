@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import "./header.scss";
 
-const Header = () => {
+const Header = ({ cartItems }) => {
   return (
     <>
       <div className="register">
@@ -31,22 +32,29 @@ const Header = () => {
             </div>
 
             <div className="user_header-items">
-              <img
-                style={{ cursor: "pointer" }}
-                src="./search.svg"
-                alt="search-image"
-              />
+              <Link to="/search">
+                <img
+                  style={{ cursor: "pointer" }}
+                  src="./search.svg"
+                  alt="search-image"
+                />
+              </Link>
 
               <img
                 style={{ cursor: "pointer" }}
                 src="./empty-heart.svg"
                 alt="favourite-image"
               />
-              <img
-                style={{ cursor: "pointer" }}
-                src="./empty-cart.svg"
-                alt="cart-image"
-              />
+              <Link style={{ position: "relative" }} to="/cart">
+                <img
+                  style={{ cursor: "pointer" }}
+                  src="./empty-cart.svg"
+                  alt="cart-image"
+                />
+                <div style={{}} className="count">
+                  {cartItems.length}
+                </div>
+              </Link>
             </div>
           </div>
         </div>
