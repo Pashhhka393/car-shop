@@ -31,7 +31,7 @@ const CarPage = ({ cars, addCarToCart, modalWindowCartOpen }) => {
             <div className="preview-car">
               <div className="img-wrapper">
                 <img
-                  style={{ borderRadius: "35px" }}
+                  style={{ borderRadius: "35px", maxWidth: "780px " }}
                   src={car.otherImages}
                   alt="car-image"
                 />

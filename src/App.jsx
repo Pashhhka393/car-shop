@@ -83,24 +83,35 @@ const App = () => {
     }
   };
   const removeAllCard = async () => {
-    const responses = await Promise.all(
-      cartItems.map((car) => {
-        fetch(`http://localhost:3001/cars/${car.id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ inCart: false }),
-        });
-      }),
-    );
+    try {
+      const responses = await Promise.all(
+        cartItems.map((car) => {
+          return fetch(`http://localhost:3001/cars/${car.id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inCart: false }),
+          });
+        }),
+      );
 
-    const updatedCars = await Promise.all(responses.map((res) => res.json()));
+      const updatedCars = await Promise.all(responses.map((res) => res.json()));
 
-    setCars((prev) =>
-      prev.map((item) => {
-        const updated = updatedCars.find((c) => c.id === item.id);
-        return updated || item;
-      }),
-    );
+      setCars((prev) =>
+        prev.map((item) => {
+          const updated = updatedCars.find((c) => c.id === item.id);
+          return updated || item;
+        }),
+      );
+      setCartItems([]);
+    } catch (error) {
+      console.log("Ошибка при очистке корзины", error);
+    }
+  };
+  const handleClearCart = async () => {
+    const userAnswer = confirm("Вы уверены, что хотите очистить корзину?");
+    if (userAnswer) {
+      await removeAllCard();
+    }
   };
 
   return (
@@ -135,7 +146,7 @@ const App = () => {
         element={
           <Cart
             cartItems={cartItems}
-            removeFromCard={removeFromCard}
+            handleClearCart={handleClearCart}
             removeAllCard={removeAllCard}
           />
         }

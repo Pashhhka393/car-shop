@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./cart.scss";
 import EmptyCart from "./EmptyCart/EmptyCart";
 
-const Cart = ({ cartItems, removeFromCard, removeAllCard }) => {
+const Cart = ({ cartItems, removeFromCard, handleClearCart }) => {
   return (
     <>
       {cartItems.length === 0 ? (
@@ -17,7 +17,7 @@ const Cart = ({ cartItems, removeFromCard, removeAllCard }) => {
                 <p>{cartItems.length} авто</p>
               </div>
               <div className="cart-navigation">
-                <button onClick={removeAllCard}>Очистить корзину</button>
+                <button onClick={handleClearCart}>Очистить корзину</button>
                 <Link to="/">
                   <button>На главную</button>
                 </Link>

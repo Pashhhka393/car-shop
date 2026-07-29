@@ -17,6 +17,10 @@ const Home = ({ cars, cartItems }) => {
         <PreviewCards />
         <CarCards cars={cars} />
       </div>
+
+      <div className="favourite-cars">
+
+      </div>
     </>
   );
 };
