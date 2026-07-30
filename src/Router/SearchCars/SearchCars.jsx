@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import "./searchcar.scss";
 import CarCard from "../../components/CarCard/CarCard";
+import { useRef } from "react";
 
 const SearchCars = ({ cars, searchCar, setSearchCar }) => {
+  const scrollRef = useRef(null);
+
+  const handleWheel = (e) => {
+    if (scrollRef.current) {
+      e.preventDefault();
+      scrollRef.current.scrollLeft += e.deltaY;
+    }
+  };
+
   return (
     <section className="search">
       <div className="container">
@@ -22,7 +32,11 @@ const SearchCars = ({ cars, searchCar, setSearchCar }) => {
           />
         </form>
 
-        <div className="search__results">
+        <div
+          ref={scrollRef}
+          onWheel={handleWheel}
+          className="search__results"
+        >
           {cars
             .filter((car) =>
               car.name.toLowerCase().includes(searchCar.toLowerCase().trim()),
