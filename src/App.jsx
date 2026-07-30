@@ -4,6 +4,7 @@ import Home from "./Router/Home/Home";
 import CarPage from "./components/CarPage/CarPage";
 import SearchCars from "./Router/SearchCars/SearchCars";
 import Cart from "./components/Cart/Cart";
+import Favourite from "./components/Favourite/Favourite";
 
 const App = () => {
   const [cars, setCars] = useState([]);
@@ -14,6 +15,15 @@ const App = () => {
       return savedCartItems ? JSON.parse(savedCartItems) : [];
     } catch (e) {
       console.log("Ошибка localStorage: ", e);
+      return [];
+    }
+  });
+  const [filteredIsFavouriteCars, setFilteredIsFavouriteCars] = useState(() => {
+    const saveFavourite = localStorage.getItem("favouriteCars");
+    try {
+      return saveFavourite ? JSON.parse(saveFavourite) : [];
+    } catch (e) {
+      console.log(e);
       return [];
     }
   });
@@ -34,6 +44,12 @@ const App = () => {
   }, []);
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  });
+  useEffect(() => {
+    localStorage.setItem(
+      "favouriteCars",
+      JSON.stringify(filteredIsFavouriteCars),
+    );
   });
 
   const addCarToCart = async (car) => {
@@ -113,12 +129,44 @@ const App = () => {
       await removeAllCard();
     }
   };
+  const addCarToFavourite = async (car) => {
+    const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isFavourite: true }),
+    });
+
+    const updCar = await response.json();
+    setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
+    setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
+  };
+  const removeFromFavourite = async (id) => {
+    const response = await fetch(`http://localhost:3001/cars/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isFavourite: false }),
+    });
+
+    const updCar = await response.json();
+    setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
+    setFilteredIsFavouriteCars((prev) => prev.filter((i) => i.id !== id));
+  };
 
   return (
     <Routes>
       <Route
         path="/"
-        element={<Home cars={cars} cartItems={cartItems} />}
+        element={
+          <Home
+            cars={cars}
+            cartItems={cartItems}
+            filteredIsFavouriteCars={filteredIsFavouriteCars}
+          />
+        }
       ></Route>
       <Route
         path="/car/:id"
@@ -127,10 +175,10 @@ const App = () => {
             cars={cars}
             addCarToCart={addCarToCart}
             modalWindowCartOpen={modalWindowCartOpen}
+            addCarToFavourite={addCarToFavourite}
           />
         }
       ></Route>
-      const [searchCar, setSearchCar] = useState("");
       <Route
         path="/search"
         element={
@@ -151,6 +199,16 @@ const App = () => {
           />
         }
       ></Route>
+      <Route
+        path="/favourite"
+        element={
+          <Favourite
+            cars={cars}
+            filteredIsFavouriteCars={filteredIsFavouriteCars}
+            removeFromFavourite={removeFromFavourite}
+          />
+        }
+      />
     </Routes>
   );
 };

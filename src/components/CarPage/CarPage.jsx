@@ -5,7 +5,12 @@ import SetCarPage from "./SetCatPage/SetCarPage";
 import "./carpage.scss";
 import ModalWindow from "../UI/ModalWindow/ModalWindow";
 
-const CarPage = ({ cars, addCarToCart, modalWindowCartOpen }) => {
+const CarPage = ({
+  cars,
+  addCarToCart,
+  modalWindowCartOpen,
+  addCarToFavourite,
+}) => {
   const { id } = useParams();
   const car = cars.find((c) => c.id == Number(id));
 
@@ -108,20 +113,20 @@ const CarPage = ({ cars, addCarToCart, modalWindowCartOpen }) => {
                 />
               </div>
 
-              {car.inCart ? (
-                <div className="specifications-btn">
+              <div className="specifications-btn">
+                {car.inCart ? (
                   <button className="in-cart-btn">В КОРЗИНЕ</button>
-                  <button>В ИЗБРАННОЕ</button>
-                </div>
-              ) : (
-                <div
-                  className="specifications-btn"
-                  onClick={() => addCarToCart(car)}
-                >
-                  <button className="not-in-cart-btn">В КОРЗИНУ</button>
-                  <button>В ИЗБРАННОЕ</button>
-                </div>
-              )}
+                ) : (
+                  <button onClick={() => addCarToCart(car)}>В КОРЗИНУ</button>
+                )}
+                {car.isFavourite ? (
+                  <button className="in-favourite">В ИЗБРАННОМ</button>
+                ) : (
+                  <button onClick={() => addCarToFavourite(car)}>
+                    В ИЗБРАННОЕ
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

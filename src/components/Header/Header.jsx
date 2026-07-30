@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./header.scss";
 
-const Header = ({ cartItems }) => {
+const Header = ({ cartItems, filteredIsFavouriteCars }) => {
   return (
     <>
       <div className="register">
@@ -40,11 +40,16 @@ const Header = ({ cartItems }) => {
                 />
               </Link>
 
-              <img
-                style={{ cursor: "pointer" }}
-                src="./empty-heart.svg"
-                alt="favourite-image"
-              />
+              <Link style={{ position: "relative" }} to="/favourite">
+                <img
+                  style={{ cursor: "pointer" }}
+                  src="./empty-heart.svg"
+                  alt="favourite-image"
+                />
+                <div style={{}} className="count">
+                  {filteredIsFavouriteCars.length}
+                </div>
+              </Link>
               <Link style={{ position: "relative" }} to="/cart">
                 <img
                   style={{ cursor: "pointer" }}
