@@ -33,7 +33,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/cars");
+        const response = await fetch("https://cars-api-a83h.onrender.com/cars");
         const data = await response.json();
         setCars(data);
       } catch (error) {
@@ -54,13 +54,16 @@ const App = () => {
 
   const addCarToCart = async (car) => {
     try {
-      const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `https://cars-api-a83h.onrender.com/cars/${car.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inCart: true }),
         },
-        body: JSON.stringify({ inCart: true }),
-      });
+      );
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`Server error ${response.status}: ${text}`);
@@ -79,13 +82,16 @@ const App = () => {
   };
   const removeFromCard = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/cars/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `https://cars-api-a83h.onrender.com/cars/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inCart: false }),
         },
-        body: JSON.stringify({ inCart: false }),
-      });
+      );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -102,7 +108,7 @@ const App = () => {
     try {
       const responses = await Promise.all(
         cartItems.map((car) => {
-          return fetch(`http://localhost:3001/cars/${car.id}`, {
+          return fetch(`https://cars-api-a83h.onrender.com/cars/${car.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ inCart: false }),
@@ -130,20 +136,23 @@ const App = () => {
     }
   };
   const addCarToFavourite = async (car) => {
-    const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://cars-api-a83h.onrender.com/cars/${car.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isFavourite: true }),
       },
-      body: JSON.stringify({ isFavourite: true }),
-    });
+    );
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   };
   const removeFromFavourite = async (id) => {
-    const response = await fetch(`http://localhost:3001/cars/${id}`, {
+    const response = await fetch(`https://cars-api-a83h.onrender.com/cars/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
