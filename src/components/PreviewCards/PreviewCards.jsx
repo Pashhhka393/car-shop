@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./previewcards.scss";
 
 const PreviewCards = () => {
@@ -5,7 +6,9 @@ const PreviewCards = () => {
     <div className="preview-cards">
       <div className="card-1">
         <h1>АВТОМОБИЛИ</h1>
-        <button>БОЛЬШЕ</button>
+        <Link to="/cars">
+          <button>БОЛЬШЕ</button>
+        </Link>
       </div>
       <div className="wrapper-cards">
         <div className="card-2">

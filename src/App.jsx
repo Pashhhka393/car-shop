@@ -5,9 +5,11 @@ import CarPage from "./components/CarPage/CarPage";
 import SearchCars from "./Router/SearchCars/SearchCars";
 import Cart from "./components/Cart/Cart";
 import Favourite from "./components/Favourite/Favourite";
+import Sort from "./components/Sort/Sort";
 
 const App = () => {
   const [cars, setCars] = useState([]);
+  const [displayedCars, setDisplayedCars] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
     const savedCartItems = localStorage.getItem("cartItems");
 
@@ -33,9 +35,10 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://cars-api-a83h.onrender.com/cars");
+        const response = await fetch("http://localhost:3001/cars");
         const data = await response.json();
         setCars(data);
+        setDisplayedCars(data);
       } catch (error) {
         console.log("error", error);
       }
@@ -54,16 +57,13 @@ const App = () => {
 
   const addCarToCart = async (car) => {
     try {
-      const response = await fetch(
-        `https://cars-api-a83h.onrender.com/cars/${car.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ inCart: true }),
+      const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ inCart: true }),
+      });
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`Server error ${response.status}: ${text}`);
@@ -82,16 +82,13 @@ const App = () => {
   };
   const removeFromCard = async (id) => {
     try {
-      const response = await fetch(
-        `https://cars-api-a83h.onrender.com/cars/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ inCart: false }),
+      const response = await fetch(`http://localhost:3001/cars/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ inCart: false }),
+      });
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -108,7 +105,7 @@ const App = () => {
     try {
       const responses = await Promise.all(
         cartItems.map((car) => {
-          return fetch(`https://cars-api-a83h.onrender.com/cars/${car.id}`, {
+          return fetch(`http://localhost:3001/cars/${car.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ inCart: false }),
@@ -136,23 +133,20 @@ const App = () => {
     }
   };
   const addCarToFavourite = async (car) => {
-    const response = await fetch(
-      `https://cars-api-a83h.onrender.com/cars/${car.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isFavourite: true }),
+    const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({ isFavourite: true }),
+    });
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   };
   const removeFromFavourite = async (id) => {
-    const response = await fetch(`https://cars-api-a83h.onrender.com/cars/${id}`, {
+    const response = await fetch(`http://localhost:3001/cars/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -164,6 +158,20 @@ const App = () => {
     setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
     setFilteredIsFavouriteCars((prev) => prev.filter((i) => i.id !== id));
   };
+  const chooseFilterBrand = (brandName) => {
+    setDisplayedCars(
+      cars.filter(({ name }) => {
+        const lowerName = name.toLowerCase();
+        const lowerBrand = brandName.toLowerCase();
+
+        return (
+          lowerName.includes(`${lowerBrand}`) ||
+          lowerName.startsWith(lowerBrand)
+        );
+      }),
+    );
+  };
+  const resetFilterBrand = () => setDisplayedCars(cars);
 
   return (
     <Routes>
@@ -218,6 +226,18 @@ const App = () => {
           />
         }
       />
+      <Route
+        path="/cars"
+        element={
+          <Sort
+            cars={displayedCars}
+            cartItems={cartItems}
+            filteredIsFavouriteCars={filteredIsFavouriteCars}
+            chooseFilterBrand={chooseFilterBrand}
+            resetFilterBrand={resetFilterBrand}
+          />
+        }
+      ></Route>
     </Routes>
   );
 };

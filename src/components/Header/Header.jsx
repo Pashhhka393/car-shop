@@ -6,26 +6,25 @@ const Header = ({ cartItems, filteredIsFavouriteCars }) => {
     <>
       <div className="register">
         <div className="register-items">
-          <img
-            style={{ cursor: "pointer" }}
-            src="./user.svg"
-            alt="user-image"
-          />
           <p>Вход/Регистрация</p>
         </div>
       </div>
       <header className="header">
         <div className="container">
           <div className="header-items">
-            <img
-              style={{ cursor: "pointer" }}
-              src="./logo.svg"
-              alt="logo-image"
-              className="logo"
-            />
+            <Link to="/">
+              <img
+                style={{ cursor: "pointer" }}
+                src="./logo.svg"
+                alt="logo-image"
+                className="logo"
+              />
+            </Link>
             <div className="header-list">
               <ul>
-                <li>АВТОМОБИЛИ</li>
+                <Link to="/cars">
+                  <li>АВТОМОБИЛИ</li>
+                </Link>
                 <li>ЗАПЧАСТИ</li>
                 <li>ОБСЛУЖИВАНИЕ</li>
               </ul>
