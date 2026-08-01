@@ -8,6 +8,7 @@
   padding: 10px;
 
   .header-sort {
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,6 +44,33 @@
     padding: 0 13px;
     gap: 5px;
   }
+
+  .sort__price-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding: 30px 20px 0;
+
+    button {
+      padding: 10px 20px;
+      border: 1px solid gray;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.4s;
+
+      &:hover {
+        background: gray;
+        color: #fff;
+      }
+    }
+  }
+
+  .sort__price-item h1 {
+    font-size: 16px;
+    border-bottom: 1px dashed #000;
+    color: #000;
+  } 
 }
 
 .sort-cards-cars {

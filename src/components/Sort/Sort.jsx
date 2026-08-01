@@ -53,6 +53,8 @@ const Sort = ({
   filteredIsFavouriteCars,
   chooseFilterBrand,
   resetFilterBrand,
+  sortByPrice,
+  sortByYear,
 }) => {
   return (
     <>
@@ -82,6 +84,16 @@ const Sort = ({
                 chooseFilterBrand={chooseFilterBrand}
               />
             ))}
+          </div>
+
+          <div className="sort-price">
+            <div className="sort__price-item">
+              <h1>Сортировать по: </h1>
+              <button onClick={() => sortByPrice("asc")}>Цена ↑ </button>
+              <button onClick={() => sortByPrice("desc")}> Цена ↓ </button>
+              <button onClick={() => sortByYear("asc")}>Год ↑ </button>
+              <button onClick={() => sortByYear("desc")}>Год ↓ </button>
+            </div>
           </div>
         </div>
         <div className="all-cars">

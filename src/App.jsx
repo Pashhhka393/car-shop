@@ -172,6 +172,24 @@ const App = () => {
     );
   };
   const resetFilterBrand = () => setDisplayedCars(cars);
+  const sortByPrice = (text) => {
+    const newCarsPriceLow = [...cars];
+    text === "asc"
+      ? newCarsPriceLow.sort(
+          (a, b) => +a.price.replaceAll(" ", "") - +b.price.replaceAll(" ", ""),
+        )
+      : newCarsPriceLow.sort(
+          (a, b) => +b.price.replaceAll(" ", "") - +a.price.replaceAll(" ", ""),
+        );
+    setDisplayedCars(newCarsPriceLow);
+  };
+  const sortByYear = (text) => {
+    const newCarsPriceLow = [...cars];
+    text === "asc"
+      ? newCarsPriceLow.sort((a, b) => a.year - b.year)
+      : newCarsPriceLow.sort((a, b) => b.year - a.year);
+    setDisplayedCars(newCarsPriceLow);
+  };
 
   return (
     <Routes>
@@ -235,6 +253,8 @@ const App = () => {
             filteredIsFavouriteCars={filteredIsFavouriteCars}
             chooseFilterBrand={chooseFilterBrand}
             resetFilterBrand={resetFilterBrand}
+            sortByPrice={sortByPrice}
+            sortByYear={sortByYear}
           />
         }
       ></Route>
