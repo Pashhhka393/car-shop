@@ -1,9 +1,9 @@
 import "./sortitem.scss";
 
-const SortItem = ({ img, title, chooseFilterBrand }) => {
+const SortItem = ({ img, title, setSelectedBrand }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    chooseFilterBrand(title);
+    setSelectedBrand(title);
   };
 
   return (

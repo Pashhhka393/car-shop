@@ -51,10 +51,9 @@ const Sort = ({
   cars,
   cartItems,
   filteredIsFavouriteCars,
-  chooseFilterBrand,
-  resetFilterBrand,
-  sortByPrice,
-  sortByYear,
+  setSelectedBrand,
+  sortBy,
+  setSortBy,
 }) => {
   return (
     <>
@@ -73,7 +72,14 @@ const Sort = ({
         <div className="sort">
           <div className="header-sort">
             <h1 className="sort-title">Марки</h1>
-            <button onClick={resetFilterBrand}>Сбросить фильтр</button>
+            <button
+              onClick={() => {
+                setSelectedBrand("");
+                setSortBy("");
+              }}
+            >
+              Сбросить фильтр
+            </button>
           </div>
           <div className="sort-items">
             {sortItem.map(({ id, img, title }) => (
@@ -81,7 +87,7 @@ const Sort = ({
                 key={id}
                 img={img}
                 title={title}
-                chooseFilterBrand={chooseFilterBrand}
+                setSelectedBrand={setSelectedBrand}
               />
             ))}
           </div>
@@ -89,10 +95,40 @@ const Sort = ({
           <div className="sort-price">
             <div className="sort__price-item">
               <h1>Сортировать по: </h1>
-              <button onClick={() => sortByPrice("asc")}>Цена ↑ </button>
-              <button onClick={() => sortByPrice("desc")}> Цена ↓ </button>
-              <button onClick={() => sortByYear("asc")}>Год ↑ </button>
-              <button onClick={() => sortByYear("desc")}>Год ↓ </button>
+              <div className="sort__btns">
+                <button
+                  className={`${sortBy === "price-asc" ? "active" : ""}`}
+                  onClick={() =>
+                    setSortBy(sortBy === "price-asc" ? "" : "price-asc")
+                  }
+                >
+                  Цена ↑{" "}
+                </button>
+                <button
+                  className={`${sortBy === "price-desc" ? "active" : ""}`}
+                  onClick={() =>
+                    setSortBy(sortBy === "price-desc" ? "" : "price-desc")
+                  }
+                >
+                  Цена ↓
+                </button>
+                <button
+                  className={`${sortBy === "year-asc" ? "active" : ""}`}
+                  onClick={() =>
+                    setSortBy(sortBy === "year-asc" ? "" : "year-asc")
+                  }
+                >
+                  Год ↑
+                </button>
+                <button
+                  className={`${sortBy === "year-desc" ? "active" : ""}`}
+                  onClick={() =>
+                    setSortBy(sortBy === "year-desc" ? "" : "year-desc")
+                  }
+                >
+                  Год ↓
+                </button>
+              </div>
             </div>
           </div>
         </div>

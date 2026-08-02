@@ -9,7 +9,6 @@ import Sort from "./components/Sort/Sort";
 
 const App = () => {
   const [cars, setCars] = useState([]);
-  const [displayedCars, setDisplayedCars] = useState([]);
   const [cartItems, setCartItems] = useState(() => {
     const savedCartItems = localStorage.getItem("cartItems");
 
@@ -29,8 +28,12 @@ const App = () => {
       return [];
     }
   });
+
   const [searchCar, setSearchCar] = useState("");
   const [modalWindowCartOpen, setModalWindowCartOpen] = useState(false);
+
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [sortBy, setSortBy] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +41,6 @@ const App = () => {
         const response = await fetch("http://localhost:3001/cars");
         const data = await response.json();
         setCars(data);
-        setDisplayedCars(data);
       } catch (error) {
         console.log("error", error);
       }
@@ -158,38 +160,35 @@ const App = () => {
     setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
     setFilteredIsFavouriteCars((prev) => prev.filter((i) => i.id !== id));
   };
-  const chooseFilterBrand = (brandName) => {
-    setDisplayedCars(
-      cars.filter(({ name }) => {
-        const lowerName = name.toLowerCase();
-        const lowerBrand = brandName.toLowerCase();
 
-        return (
-          lowerName.includes(`${lowerBrand}`) ||
-          lowerName.startsWith(lowerBrand)
-        );
-      }),
+  const filteredCars = cars.filter((c) => {
+    return (
+      !selectedBrand ||
+      c.name.toLowerCase().includes(selectedBrand.toLowerCase())
     );
-  };
-  const resetFilterBrand = () => setDisplayedCars(cars);
-  const sortByPrice = (text) => {
-    const newCarsPriceLow = [...cars];
-    text === "asc"
-      ? newCarsPriceLow.sort(
-          (a, b) => +a.price.replaceAll(" ", "") - +b.price.replaceAll(" ", ""),
-        )
-      : newCarsPriceLow.sort(
-          (a, b) => +b.price.replaceAll(" ", "") - +a.price.replaceAll(" ", ""),
-        );
-    setDisplayedCars(newCarsPriceLow);
-  };
-  const sortByYear = (text) => {
-    const newCarsPriceLow = [...cars];
-    text === "asc"
-      ? newCarsPriceLow.sort((a, b) => a.year - b.year)
-      : newCarsPriceLow.sort((a, b) => b.year - a.year);
-    setDisplayedCars(newCarsPriceLow);
-  };
+  });
+
+  const sortedCars = [...filteredCars];
+  switch (sortBy) {
+    case "price-asc":
+      sortedCars.sort(
+        (a, b) => +a.price.replace(/\D/g, "") - +b.price.replace(/\D/g, ""),
+      );
+      break;
+    case "price-desc":
+      sortedCars.sort(
+        (a, b) => +b.price.replace(/\D/g, "") - +a.price.replace(/\D/g, ""),
+      );
+      break;
+    case "year-asc":
+      sortedCars.sort((a, b) => a.year - b.year);
+      break;
+    case "year-desc":
+      sortedCars.sort((a, b) => b.year - a.year);
+      break;
+    default:
+      sortedCars;
+  }
 
   return (
     <Routes>
@@ -248,13 +247,12 @@ const App = () => {
         path="/cars"
         element={
           <Sort
-            cars={displayedCars}
+            cars={sortedCars}
             cartItems={cartItems}
             filteredIsFavouriteCars={filteredIsFavouriteCars}
-            chooseFilterBrand={chooseFilterBrand}
-            resetFilterBrand={resetFilterBrand}
-            sortByPrice={sortByPrice}
-            sortByYear={sortByYear}
+            setSelectedBrand={setSelectedBrand}
+            sortBy={sortBy}
+            setSortBy={setSortBy}
           />
         }
       ></Route>
