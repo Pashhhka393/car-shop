@@ -50,3 +50,16 @@
     padding: 30px 0;
   }
 }
+
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .header-cart {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .cart-navigation button {
+      padding: 5px 10px;
+    }
+  }
+}

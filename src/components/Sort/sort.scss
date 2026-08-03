@@ -4,8 +4,16 @@
 
 .sort {
   background: #fff;
-  width: 500px;
+
+  width: 100%;
+  max-width: 500px;
+
   padding: 10px;
+
+  .filter-sort-container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
 
   .header-sort {
     padding: 10px;
@@ -37,11 +45,10 @@
   }
 
   .sort-items {
-    padding-top: 7px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    padding: 0 13px;
+    justify-content: center;
     gap: 5px;
   }
 
@@ -84,10 +91,59 @@
 }
 
 .sort-cards-cars {
-  padding: 60px;
+  padding: 20px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  justify-content: flex-start;
   gap: 25px;
   color: #000;
+}
+
+@media (min-width: 1280px) and (max-width: 1440px) {
+  .sort-cards-cars {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .sort {
+    width: 280px;
+  }
+  .sort-cards-cars {
+    padding: 40px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .sort .sort__price-item .sort__btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .sort .header-sort button {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+  .sort .sort__price-item .sort__btns button {
+    font-size: 10px;
+    padding: 5px 10px;
+  }
+  .sort-cards-cars {
+    padding: 20px;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .sort {
+    width: 100%;
+  }
+  .sort-cars {
+    display: block;
+  }
+  .sort-cards-cars {
+    grid-template-columns: repeat(1, 1fr);
+    justify-items: center;
+  }
 }

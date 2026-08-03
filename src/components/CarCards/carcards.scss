@@ -16,3 +16,17 @@
     flex-wrap: wrap;
   }
 }
+
+@media (min-width: 1280px) and (max-width: 1440px) {
+  .car-sale .cards-cars {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1000px) {
+  .car-sale .cards-cars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

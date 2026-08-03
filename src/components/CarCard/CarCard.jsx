@@ -28,7 +28,7 @@ const CarCard = ({ car }) => {
       <div className="settings-car">
         <div className="engine">
           <img src="./engine.svg" alt="" />
-          <p>{car.engine} л.</p>
+          <p>{car.engine}</p>
         </div>
 
         <div className="drive">

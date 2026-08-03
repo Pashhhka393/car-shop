@@ -2,13 +2,21 @@ import Header from "../../components/Header/Header";
 import PreviewCards from "../../components/PreviewCards/PreviewCards";
 import CarCards from "../../components/CarCards/CarCards";
 
-const Home = ({ cars, cartItems, filteredIsFavouriteCars }) => {
+const Home = ({
+  cars,
+  cartItems,
+  filteredIsFavouriteCars,
+  openCart,
+  setOpenCart,
+}) => {
   return (
     <>
       <div className="bg-wrapper">
         <Header
           cartItems={cartItems}
           filteredIsFavouriteCars={filteredIsFavouriteCars}
+          openCart={openCart}
+          setOpenCart={setOpenCart}
         />
         <div className="preview-words">
           <span>НАЙДИ СВОЙ СЛЕДУЮЩИЙ АВТОМОБИЛЬ</span>

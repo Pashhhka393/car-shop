@@ -48,3 +48,46 @@ body {
     letter-spacing: 0.01em;
   }
 }
+
+@media (max-width: 1000px) {
+  .bg-wrapper {
+    background-image: url("/bg-image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+  }
+
+  .bg-wrapper .preview-words span:first-child {
+    font-weight: 700;
+    font-size: 30px;
+  }
+  .bg-wrapper .preview-words span:last-child {
+    font-size: 20px;
+    letter-spacing: 0.01em;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .bg-wrapper {
+    background-image: url("/bg-image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 420px;
+  }
+
+  .bg-wrapper .preview-words {
+    display: flex;
+    flex-direction: column;
+
+    padding: 80px 50px;
+  }
+  .bg-wrapper .preview-words span:first-child {
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .bg-wrapper .preview-words span:last-child {
+    font-size: 15px;
+    letter-spacing: 0.01em;
+  }
+}

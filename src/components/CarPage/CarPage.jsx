@@ -35,11 +35,7 @@ const CarPage = ({
           <div className="character-car">
             <div className="preview-car">
               <div className="img-wrapper">
-                <img
-                  style={{ borderRadius: "35px", maxWidth: "780px " }}
-                  src={car.otherImages}
-                  alt="car-image"
-                />
+                <img src={car.otherImages} alt="car-image" />
               </div>
               <div className="preview_car-desc">
                 <h1>Описание</h1>

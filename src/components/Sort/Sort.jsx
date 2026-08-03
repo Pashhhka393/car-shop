@@ -54,6 +54,8 @@ const Sort = ({
   setSelectedBrand,
   sortBy,
   setSortBy,
+  openCart,
+  setOpenCart,
 }) => {
   return (
     <>
@@ -61,6 +63,8 @@ const Sort = ({
         <Header
           cartItems={cartItems}
           filteredIsFavouriteCars={filteredIsFavouriteCars}
+          openCart={openCart}
+          setOpenCart={setOpenCart}
         />
         <div className="preview-words">
           <span>НАЙДИ СВОЙ СЛЕДУЮЩИЙ АВТОМОБИЛЬ</span>
@@ -81,53 +85,55 @@ const Sort = ({
               Сбросить фильтр
             </button>
           </div>
-          <div className="sort-items">
-            {sortItem.map(({ id, img, title }) => (
-              <SortItem
-                key={id}
-                img={img}
-                title={title}
-                setSelectedBrand={setSelectedBrand}
-              />
-            ))}
-          </div>
+          <div className="filter-sort-container">
+            <div className="sort-items">
+              {sortItem.map(({ id, img, title }) => (
+                <SortItem
+                  key={id}
+                  img={img}
+                  title={title}
+                  setSelectedBrand={setSelectedBrand}
+                />
+              ))}
+            </div>
 
-          <div className="sort-price">
-            <div className="sort__price-item">
-              <h1>Сортировать по: </h1>
-              <div className="sort__btns">
-                <button
-                  className={`${sortBy === "price-asc" ? "active" : ""}`}
-                  onClick={() =>
-                    setSortBy(sortBy === "price-asc" ? "" : "price-asc")
-                  }
-                >
-                  Цена ↑{" "}
-                </button>
-                <button
-                  className={`${sortBy === "price-desc" ? "active" : ""}`}
-                  onClick={() =>
-                    setSortBy(sortBy === "price-desc" ? "" : "price-desc")
-                  }
-                >
-                  Цена ↓
-                </button>
-                <button
-                  className={`${sortBy === "year-asc" ? "active" : ""}`}
-                  onClick={() =>
-                    setSortBy(sortBy === "year-asc" ? "" : "year-asc")
-                  }
-                >
-                  Год ↑
-                </button>
-                <button
-                  className={`${sortBy === "year-desc" ? "active" : ""}`}
-                  onClick={() =>
-                    setSortBy(sortBy === "year-desc" ? "" : "year-desc")
-                  }
-                >
-                  Год ↓
-                </button>
+            <div className="sort-price">
+              <div className="sort__price-item">
+                <h1>Сортировать по: </h1>
+                <div className="sort__btns">
+                  <button
+                    className={`${sortBy === "price-asc" ? "active" : ""}`}
+                    onClick={() =>
+                      setSortBy(sortBy === "price-asc" ? "" : "price-asc")
+                    }
+                  >
+                    Цена ↑{" "}
+                  </button>
+                  <button
+                    className={`${sortBy === "price-desc" ? "active" : ""}`}
+                    onClick={() =>
+                      setSortBy(sortBy === "price-desc" ? "" : "price-desc")
+                    }
+                  >
+                    Цена ↓
+                  </button>
+                  <button
+                    className={`${sortBy === "year-asc" ? "active" : ""}`}
+                    onClick={() =>
+                      setSortBy(sortBy === "year-asc" ? "" : "year-asc")
+                    }
+                  >
+                    Год ↑
+                  </button>
+                  <button
+                    className={`${sortBy === "year-desc" ? "active" : ""}`}
+                    onClick={() =>
+                      setSortBy(sortBy === "year-desc" ? "" : "year-desc")
+                    }
+                  >
+                    Год ↓
+                  </button>
+                </div>
               </div>
             </div>
           </div>

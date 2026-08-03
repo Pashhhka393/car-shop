@@ -35,6 +35,8 @@ const App = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [sortBy, setSortBy] = useState(null);
 
+  const [openCart, setOpenCart] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -199,6 +201,8 @@ const App = () => {
             cars={cars}
             cartItems={cartItems}
             filteredIsFavouriteCars={filteredIsFavouriteCars}
+            openCart={openCart}
+            setOpenCart={setOpenCart}
           />
         }
       ></Route>
@@ -253,6 +257,8 @@ const App = () => {
             setSelectedBrand={setSelectedBrand}
             sortBy={sortBy}
             setSortBy={setSortBy}
+            openCart={openCart}
+            setOpenCart={setOpenCart}
           />
         }
       ></Route>

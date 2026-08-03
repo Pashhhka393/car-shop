@@ -25,3 +25,43 @@
     color: #fff;
   }
 }
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .empty-cart h1 {
+    font-size: 20px;
+  }
+
+  .favourite-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .favourite-header h1 {
+    font-size: 16px;
+  }
+
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+
+    .remove-cart h1 {
+      font-size: 16px;
+    }
+
+    .cart-info h2 {
+      font-size: 14px;
+    }
+    .cart-info h3 {
+      font-size: 14px;
+    }
+    .status-info h1 {
+      font-size: 14px;
+    }
+  } 
+  .cart-item .delete-car {
+    display: flex;
+    margin: 0;
+    align-self: center;
+  }
+}

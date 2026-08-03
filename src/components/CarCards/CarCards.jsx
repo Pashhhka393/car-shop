@@ -7,7 +7,7 @@ const CarCards = ({ cars }) => {
     <div className="car-sale">
       <h1>ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ</h1>
       <div className="cards-cars">
-        {cars.map((car) => {
+        {cars.slice(0, 8).map((car) => {
           return (
             <Link
               key={car.id}
