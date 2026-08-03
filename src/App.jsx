@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/cars");
+        const response = await fetch("https://cars-api-a83h.onrender.com");
         const data = await response.json();
         setCars(data);
       } catch (error) {
@@ -61,7 +61,7 @@ const App = () => {
 
   const addCarToCart = async (car) => {
     try {
-      const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
+      const response = await fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -86,7 +86,7 @@ const App = () => {
   };
   const removeFromCard = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3001/cars/${id}`, {
+      const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const App = () => {
     try {
       const responses = await Promise.all(
         cartItems.map((car) => {
-          return fetch(`http://localhost:3001/cars/${car.id}`, {
+          return fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ inCart: false }),
@@ -137,7 +137,7 @@ const App = () => {
     }
   };
   const addCarToFavourite = async (car) => {
-    const response = await fetch(`http://localhost:3001/cars/${car.id}`, {
+    const response = await fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -150,7 +150,7 @@ const App = () => {
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   };
   const removeFromFavourite = async (id) => {
-    const response = await fetch(`http://localhost:3001/cars/${id}`, {
+    const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
