@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import CarCard from "../CarCard/CarCard";
 import "./carcards.scss";
+import Spinner from "../UI/Spinner/Spinner";
 
-const CarCards = ({ cars }) => {
+const CarCards = ({ cars, isLoading }) => {
   return (
     <div className="car-sale">
       <h1>ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ</h1>
       <div className="cards-cars">
+        {isLoading && <Spinner />}
         {cars.slice(0, 8).map((car) => {
           return (
             <Link

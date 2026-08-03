@@ -35,14 +35,16 @@ const App = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [sortBy, setSortBy] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [openCart, setOpenCart] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://cars-api-a83h.onrender.com");
+        const response = await fetch("https://cars-api-a83h.onrender.com/cars");
         const data = await response.json();
         setCars(data);
+        setIsLoading(false);
       } catch (error) {
         console.log("error", error);
       }
@@ -61,13 +63,16 @@ const App = () => {
 
   const addCarToCart = async (car) => {
     try {
-      const response = await fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `https://cars-api-a83h.onrender.com/${car.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inCart: true }),
         },
-        body: JSON.stringify({ inCart: true }),
-      });
+      );
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`Server error ${response.status}: ${text}`);
@@ -137,13 +142,16 @@ const App = () => {
     }
   };
   const addCarToFavourite = async (car) => {
-    const response = await fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://cars-api-a83h.onrender.com/${car.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isFavourite: true }),
       },
-      body: JSON.stringify({ isFavourite: true }),
-    });
+    );
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
@@ -203,6 +211,7 @@ const App = () => {
             filteredIsFavouriteCars={filteredIsFavouriteCars}
             openCart={openCart}
             setOpenCart={setOpenCart}
+            isLoading={isLoading}
           />
         }
       ></Route>
@@ -224,6 +233,7 @@ const App = () => {
             cars={cars}
             searchCar={searchCar}
             setSearchCar={setSearchCar}
+            isLoading={isLoading}
           />
         }
       ></Route>
@@ -259,6 +269,7 @@ const App = () => {
             setSortBy={setSortBy}
             openCart={openCart}
             setOpenCart={setOpenCart}
+            isLoading={isLoading}
           />
         }
       ></Route>

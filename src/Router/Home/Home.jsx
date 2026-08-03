@@ -8,6 +8,7 @@ const Home = ({
   filteredIsFavouriteCars,
   openCart,
   setOpenCart,
+  isLoading,
 }) => {
   return (
     <>
@@ -26,7 +27,7 @@ const Home = ({
 
       <div className="container">
         <PreviewCards />
-        <CarCards cars={cars} />
+        <CarCards cars={cars} isLoading={isLoading}/>
       </div>
     </>
   );

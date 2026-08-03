@@ -3,6 +3,7 @@ import Header from "../Header/Header";
 import SortItem from "./SortItem/SortItem";
 import CarCard from "../CarCard/CarCard";
 import "./sort.scss";
+import Spinner from "../UI/Spinner/Spinner";
 
 const sortItem = [
   {
@@ -56,6 +57,7 @@ const Sort = ({
   setSortBy,
   openCart,
   setOpenCart,
+  isLoading,
 }) => {
   return (
     <>
@@ -138,6 +140,7 @@ const Sort = ({
             </div>
           </div>
         </div>
+        {isLoading && <Spinner />}
         <div className="all-cars">
           <div className="sort-cards-cars">
             {cars.map((c) => (

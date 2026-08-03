@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import "./searchcar.scss";
 import CarCard from "../../components/CarCard/CarCard";
 import { useRef } from "react";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
-const SearchCars = ({ cars, searchCar, setSearchCar }) => {
+const SearchCars = ({ cars, searchCar, setSearchCar, isLoading }) => {
   const scrollRef = useRef(null);
 
   const handleWheel = (e) => {
@@ -31,12 +32,8 @@ const SearchCars = ({ cars, searchCar, setSearchCar }) => {
             placeholder="Например: BMW M4, Audi RS6..."
           />
         </form>
-
-        <div
-          ref={scrollRef}
-          onWheel={handleWheel}
-          className="search__results"
-        >
+        {isLoading && <Spinner />}
+        <div ref={scrollRef} onWheel={handleWheel} className="search__results">
           {cars
             .filter((car) =>
               car.name.toLowerCase().includes(searchCar.toLowerCase().trim()),
