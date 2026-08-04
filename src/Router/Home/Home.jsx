@@ -1,5 +1,4 @@
 import Header from "../../components/Header/Header";
-import PreviewCards from "../../components/PreviewCards/PreviewCards";
 import CarCards from "../../components/CarCards/CarCards";
 
 const Home = ({
@@ -26,7 +25,6 @@ const Home = ({
       </div>
 
       <div className="container">
-        <PreviewCards />
         <CarCards cars={cars} isLoading={isLoading}/>
       </div>
     </>

@@ -17,11 +17,6 @@ const Header = ({
 
   return (
     <>
-      <div className="register">
-        <div className="register-items">
-          <p>Вход/Регистрация</p>
-        </div>
-      </div>
       <header className="header">
         <div className="container">
           <div className="header-items">
