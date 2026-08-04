@@ -41,9 +41,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://cars-api-production-f1ea.up.railway.app/cars",
-        );
+        const response = await fetch("https://cars-api-a83h.onrender.com/cars");
         const data = await response.json();
         setCars(data);
         setIsLoading(false);
@@ -66,7 +64,7 @@ const App = () => {
   const addCarToCart = async (car) => {
     try {
       const response = await fetch(
-        `https://cars-api-production-f1ea.up.railway.app/${car.id}`,
+        `https://cars-api-a83h.onrender.com/${car.id}`,
         {
           method: "PATCH",
           headers: {
@@ -93,7 +91,7 @@ const App = () => {
   };
   const removeFromCard = async (id) => {
     try {
-      const response = await fetch(`https://cars-api-production-f1ea.up.railway.app/${id}`, {
+      const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -116,7 +114,7 @@ const App = () => {
     try {
       const responses = await Promise.all(
         cartItems.map((car) => {
-          return fetch(`https://cars-api-production-f1ea.up.railway.app/${car.id}`, {
+          return fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ inCart: false }),
@@ -145,7 +143,7 @@ const App = () => {
   };
   const addCarToFavourite = async (car) => {
     const response = await fetch(
-      `https://cars-api-production-f1ea.up.railway.app/${car.id}`,
+      `https://cars-api-a83h.onrender.com/${car.id}`,
       {
         method: "PATCH",
         headers: {
@@ -160,7 +158,7 @@ const App = () => {
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   };
   const removeFromFavourite = async (id) => {
-    const response = await fetch(`https://cars-api-production-f1ea.up.railway.app/${id}`, {
+    const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
