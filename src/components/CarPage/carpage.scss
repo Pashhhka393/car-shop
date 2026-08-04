@@ -131,6 +131,11 @@
   max-width: 780px;
 }
 
+.img-wrapper img {
+  border-radius: 35px;
+  max-width: 780px;
+}
+
 @media (max-width: 1024px) {
   .info-page .info-items {
     display: flex;
