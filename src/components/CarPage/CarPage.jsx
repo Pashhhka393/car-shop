@@ -12,7 +12,7 @@ const CarPage = ({
   addCarToFavourite,
 }) => {
   const { id } = useParams();
-  const car = cars.find((c) => c.id == id);
+  const car = cars.find((c) => c.id == Number(id));
 
   useEffect(() => {
     window.scrollTo(0, 0);
