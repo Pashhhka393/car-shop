@@ -64,7 +64,7 @@ const App = () => {
   const addCarToCart = async (car) => {
     try {
       const response = await fetch(
-        `https://cars-api-a83h.onrender.com/${car.id}`,
+        `https://cars-api-a83h.onrender.com/cars/${car.id}`,
         {
           method: "PATCH",
           headers: {
@@ -91,13 +91,16 @@ const App = () => {
   };
   const removeFromCard = async (id) => {
     try {
-      const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `https://cars-api-a83h.onrender.com/cars/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ inCart: false }),
         },
-        body: JSON.stringify({ inCart: false }),
-      });
+      );
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -114,7 +117,7 @@ const App = () => {
     try {
       const responses = await Promise.all(
         cartItems.map((car) => {
-          return fetch(`https://cars-api-a83h.onrender.com/${car.id}`, {
+          return fetch(`https://cars-api-a83h.onrender.com/cars/${car.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ inCart: false }),
@@ -143,7 +146,7 @@ const App = () => {
   };
   const addCarToFavourite = async (car) => {
     const response = await fetch(
-      `https://cars-api-a83h.onrender.com/${car.id}`,
+      `https://cars-api-a83h.onrender.com/cars/${car.id}`,
       {
         method: "PATCH",
         headers: {
@@ -158,13 +161,16 @@ const App = () => {
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   };
   const removeFromFavourite = async (id) => {
-    const response = await fetch(`https://cars-api-a83h.onrender.com/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      `https://cars-api-a83h.onrender.com/cars/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isFavourite: false }),
       },
-      body: JSON.stringify({ isFavourite: false }),
-    });
+    );
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
