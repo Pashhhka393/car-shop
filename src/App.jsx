@@ -7,6 +7,7 @@ import Cart from "./components/Cart/Cart";
 import Favourite from "./components/Favourite/Favourite";
 import Sort from "./components/Sort/Sort";
 import { useCart } from "./context/CartContext";
+import { API_URL } from "./api/cars";
 
 const App = () => {
   const { cartItems, cars, setCars } = useCart();
@@ -32,7 +33,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://cars-api-a83h.onrender.com/cars");
+        const response = await fetch(API_URL);
         const data = await response.json();
         setCars(data);
         setIsLoading(false);
@@ -53,32 +54,26 @@ const App = () => {
   });
 
   const addCarToFavourite = useCallback(async (car) => {
-    const response = await fetch(
-      `https://cars-api-a83h.onrender.com/cars/${car.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isFavourite: true }),
+    const response = await fetch(`${API_URL}/${car.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({ isFavourite: true }),
+    });
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
     setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
   }, []);
   const removeFromFavourite = async (id) => {
-    const response = await fetch(
-      `https://cars-api-a83h.onrender.com/cars/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ isFavourite: false }),
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({ isFavourite: false }),
+    });
 
     const updCar = await response.json();
     setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));

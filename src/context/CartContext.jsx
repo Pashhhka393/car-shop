@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useCallback } from "react";
+import { addCar, removeAll, removeCar } from "../api/cars";
 
 const CartContext = createContext();
 
@@ -16,18 +17,9 @@ export const CartProvider = ({ children }) => {
   const [cars, setCars] = useState([]);
   const [modalWindowCartOpen, setModalWindowCartOpen] = useState(false);
 
-  const addCarToCart = async (car) => {
+  const addCarToCart = useCallback(async (car) => {
     try {
-      const response = await fetch(
-        `https://cars-api-a83h.onrender.com/cars/${car.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ inCart: true }),
-        },
-      );
+      const response = await addCar(car);
       if (!response.ok) {
         const text = await response.text();
         throw new Error(`Server error ${response.status}: ${text}`);
@@ -43,20 +35,11 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.log("Ошибка при добавлении в корзину", error);
     }
-  };
+  }, []);
 
-  const removeFromCard = async (id) => {
+  const removeFromCard = useCallback(async (id) => {
     try {
-      const response = await fetch(
-        `https://cars-api-a83h.onrender.com/cars/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ inCart: false }),
-        },
-      );
+      const response = await removeCar(id);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
@@ -68,21 +51,13 @@ export const CartProvider = ({ children }) => {
     } catch (error) {
       console.log("error", error);
     }
-  };
+  }, []);
 
   const removeAllCard = useCallback(async () => {
     try {
-      const responses = await Promise.all(
-        cartItems.map((car) => {
-          return fetch(`https://cars-api-a83h.onrender.com/cars/${car.id}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ inCart: false }),
-          });
-        }),
+      const updatedCars = await Promise.all(
+        cartItems.map((car) => removeAll(car)).then((res) => res.json()),
       );
-
-      const updatedCars = await Promise.all(responses.map((res) => res.json()));
 
       setCars((prev) =>
         prev.map((item) => {
@@ -96,12 +71,12 @@ export const CartProvider = ({ children }) => {
     }
   }, [cartItems]);
 
-  const handleClearCart = async () => {
+  const handleClearCart = useCallback(async () => {
     const userAnswer = confirm("Вы уверены, что хотите очистить корзину?");
     if (userAnswer) {
       await removeAllCard();
     }
-  };
+  }, []);
 
   return (
     <CartContext.Provider
