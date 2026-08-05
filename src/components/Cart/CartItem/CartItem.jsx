@@ -1,6 +1,9 @@
+import { useCart } from "../../../context/CartContext";
 import "./cartitem.scss";
 
-const CartItem = ({ car, removeFromCard }) => {
+const CartItem = ({ car }) => {
+  const { removeFromCard } = useCart();
+
   return (
     <div className="cart-item">
       <div className="cart__img-wrapper">

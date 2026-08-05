@@ -2,8 +2,11 @@ import CartItem from "./CartItem/CartItem";
 import { Link } from "react-router-dom";
 import "./cart.scss";
 import EmptyCart from "./EmptyCart/EmptyCart";
+import { useCart } from "../../context/CartContext";
 
-const Cart = ({ cartItems, removeFromCard, handleClearCart }) => {
+const Cart = () => {
+  const { cartItems, handleClearCart } = useCart();
+
   return (
     <>
       {cartItems.length === 0 ? (
@@ -26,13 +29,7 @@ const Cart = ({ cartItems, removeFromCard, handleClearCart }) => {
 
             <div className="cart-items">
               {cartItems.map((car) => {
-                return (
-                  <CartItem
-                    key={car.id}
-                    car={car}
-                    removeFromCard={removeFromCard}
-                  />
-                );
+                return <CartItem key={car.id} car={car} />;
               })}
             </div>
           </div>

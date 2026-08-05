@@ -1,12 +1,10 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import "./header.scss";
+import { useCart } from "../../context/CartContext";
 
-const Header = ({
-  cartItems,
-  filteredIsFavouriteCars,
-  openCart,
-  setOpenCart,
-}) => {
+const Header = ({ filteredIsFavouriteCars, openCart, setOpenCart }) => {
+  const { cartItems } = useCart();
   const handleMenuToggle = () => {
     setOpenCart(!openCart);
   };
@@ -161,4 +159,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export default memo(Header);

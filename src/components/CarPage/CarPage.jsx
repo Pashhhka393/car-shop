@@ -4,13 +4,10 @@ import CharacterCar from "./CharacterCar/CharacterCar";
 import SetCarPage from "./SetCatPage/SetCarPage";
 import "./carpage.scss";
 import ModalWindow from "../UI/ModalWindow/ModalWindow";
+import { useCart } from "../../context/CartContext";
 
-const CarPage = ({
-  cars,
-  addCarToCart,
-  modalWindowCartOpen,
-  addCarToFavourite,
-}) => {
+const CarPage = ({ addCarToFavourite }) => {
+  const { cars, addCarToCart, modalWindowCartOpen } = useCart();
   const { id } = useParams();
   const car = cars.find((c) => c.id == Number(id));
 

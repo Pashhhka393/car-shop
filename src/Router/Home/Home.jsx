@@ -2,8 +2,6 @@ import Header from "../../components/Header/Header";
 import CarCards from "../../components/CarCards/CarCards";
 
 const Home = ({
-  cars,
-  cartItems,
   filteredIsFavouriteCars,
   openCart,
   setOpenCart,
@@ -13,7 +11,6 @@ const Home = ({
     <>
       <div className="bg-wrapper">
         <Header
-          cartItems={cartItems}
           filteredIsFavouriteCars={filteredIsFavouriteCars}
           openCart={openCart}
           setOpenCart={setOpenCart}
@@ -25,7 +22,7 @@ const Home = ({
       </div>
 
       <div className="container">
-        <CarCards cars={cars} isLoading={isLoading}/>
+        <CarCards isLoading={isLoading} />
       </div>
     </>
   );

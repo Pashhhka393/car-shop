@@ -50,7 +50,6 @@ const sortItem = [
 
 const Sort = ({
   cars,
-  cartItems,
   filteredIsFavouriteCars,
   setSelectedBrand,
   sortBy,
@@ -63,7 +62,6 @@ const Sort = ({
     <>
       <div className="bg-wrapper">
         <Header
-          cartItems={cartItems}
           filteredIsFavouriteCars={filteredIsFavouriteCars}
           openCart={openCart}
           setOpenCart={setOpenCart}
