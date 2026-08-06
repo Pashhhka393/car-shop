@@ -6,11 +6,11 @@ import SearchCars from "./Router/SearchCars/SearchCars";
 import Cart from "./components/Cart/Cart";
 import Favourite from "./components/Favourite/Favourite";
 import Sort from "./components/Sort/Sort";
-import { useCart } from "./context/CartContext";
+import { useCart } from "./context/CartContextReducer";
 import { API_URL } from "./api/cars";
 
 const App = () => {
-  const { cartItems, cars, setCars } = useCart();
+  const { cars, setCars } = useCart();
 
   const [filteredIsFavouriteCars, setFilteredIsFavouriteCars] = useState(() => {
     const saveFavourite = localStorage.getItem("favouriteCars");
@@ -27,25 +27,8 @@ const App = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [sortBy, setSortBy] = useState(null);
 
-  const [isLoading, setIsLoading] = useState(true);
   const [openCart, setOpenCart] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        setCars(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.log("error", error);
-      }
-    };
-    fetchData();
-  }, []);
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  });
   useEffect(() => {
     localStorage.setItem(
       "favouriteCars",
@@ -118,10 +101,10 @@ const App = () => {
         path="/"
         element={
           <Home
+            cars={cars}
             filteredIsFavouriteCars={filteredIsFavouriteCars}
             openCart={openCart}
             setOpenCart={setOpenCart}
-            isLoading={isLoading}
           />
         }
       ></Route>
@@ -132,11 +115,7 @@ const App = () => {
       <Route
         path="/search"
         element={
-          <SearchCars
-            searchCar={searchCar}
-            setSearchCar={setSearchCar}
-            isLoading={isLoading}
-          />
+          <SearchCars searchCar={searchCar} setSearchCar={setSearchCar} />
         }
       ></Route>
       <Route path="/cart" element={<Cart />}></Route>
@@ -160,7 +139,6 @@ const App = () => {
             setSortBy={setSortBy}
             openCart={openCart}
             setOpenCart={setOpenCart}
-            isLoading={isLoading}
           />
         }
       ></Route>

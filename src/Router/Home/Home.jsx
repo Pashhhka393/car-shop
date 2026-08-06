@@ -1,12 +1,7 @@
 import Header from "../../components/Header/Header";
 import CarCards from "../../components/CarCards/CarCards";
 
-const Home = ({
-  filteredIsFavouriteCars,
-  openCart,
-  setOpenCart,
-  isLoading,
-}) => {
+const Home = ({ cars, filteredIsFavouriteCars, openCart, setOpenCart }) => {
   return (
     <>
       <div className="bg-wrapper">
@@ -22,7 +17,7 @@ const Home = ({
       </div>
 
       <div className="container">
-        <CarCards isLoading={isLoading} />
+        <CarCards cars={cars} />
       </div>
     </>
   );

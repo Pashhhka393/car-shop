@@ -2,10 +2,11 @@ import CartItem from "./CartItem/CartItem";
 import { Link } from "react-router-dom";
 import "./cart.scss";
 import EmptyCart from "./EmptyCart/EmptyCart";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContextReducer";
 
 const Cart = () => {
-  const { cartItems, handleClearCart } = useCart();
+  const { state, handleClearCart } = useCart();
+  const cartItems = state?.cartItems || [];
 
   return (
     <>

@@ -1,21 +1,57 @@
-import { createContext, useState, useContext, useCallback } from "react";
-import { addCar, removeAll, removeCar } from "../api/cars";
+import {
+  createContext,
+  useState,
+  useReducer,
+  useContext,
+  useCallback,
+  useEffect,
+} from "react";
+import { addCar, removeAll, removeCar, API_URL } from "../api/cars";
 
-const CartContext = createContext();
+const CartContextReducer = createContext();
+
+const initialState = {
+  cartItems: (() => {
+    const saved = localStorage.getItem("cartItems");
+    return saved ? JSON.parse(saved) : [];
+  })(),
+};
+function cartReducer(state, action) {
+  switch (action.type) {
+    case "ADD_TO_CART":
+      return { ...state, cartItems: [...state.cartItems, action.payload] };
+
+    case "REMOVE_FROM_CART":
+      return {
+        ...state,
+        cartItems: state.cartItems.filter((c) => c.id !== action.payload),
+      };
+
+    case "CLEAR_CART":
+      return { ...state, cartItems: [] };
+    default:
+      return state;
+  }
+}
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState(() => {
-    const savedCartItems = localStorage.getItem("cartItems");
-
-    try {
-      return savedCartItems ? JSON.parse(savedCartItems) : [];
-    } catch (e) {
-      console.log("Ошибка localStorage: ", e);
-      return [];
-    }
-  });
+  const [state, dispatch] = useReducer(cartReducer, initialState);
   const [cars, setCars] = useState([]);
-  const [modalWindowCartOpen, setModalWindowCartOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        setCars(data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log("error", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   const addCarToCart = useCallback(async (car) => {
     try {
@@ -29,9 +65,7 @@ export const CartProvider = ({ children }) => {
       setCars((prev) =>
         prev.map((item) => (car.id === item.id ? updateCar : item)),
       );
-      setCartItems((prev) => [...prev, updateCar]);
-      setModalWindowCartOpen(true);
-      setTimeout(() => setModalWindowCartOpen(false), 2500);
+      dispatch({ type: "ADD_TO_CART", payload: updateCar });
     } catch (error) {
       console.log("Ошибка при добавлении в корзину", error);
     }
@@ -47,7 +81,7 @@ export const CartProvider = ({ children }) => {
       const updCar = await response.json();
 
       setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
-      setCartItems((prev) => prev.filter((item) => item.id !== id));
+      dispatch({ type: "REMOVE_FROM_CART", payload: id });
     } catch (error) {
       console.log("error", error);
     }
@@ -56,7 +90,7 @@ export const CartProvider = ({ children }) => {
   const removeAllCard = useCallback(async () => {
     try {
       const updatedCars = await Promise.all(
-        cartItems.map((car) => removeAll(car)).then((res) => res.json()),
+        state.cartItems.map((car) => removeAll(car)).then((res) => res.json()),
       );
 
       setCars((prev) =>
@@ -65,11 +99,11 @@ export const CartProvider = ({ children }) => {
           return updated || item;
         }),
       );
-      setCartItems([]);
+      dispatch({ type: "CLEAR_CART" });
     } catch (error) {
       console.log("Ошибка при очистке корзины", error);
     }
-  }, [cartItems]);
+  }, [state.cartItems]);
 
   const handleClearCart = useCallback(async () => {
     const userAnswer = confirm("Вы уверены, что хотите очистить корзину?");
@@ -79,26 +113,22 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   return (
-    <CartContext.Provider
+    <CartContextReducer.Provider
       value={{
-        cartItems,
-        setCartItems,
-
+        state,
+        dispatch,
         cars,
         setCars,
-
-        modalWindowCartOpen,
-        setModalWindowCartOpen,
-
         addCarToCart,
         removeFromCard,
-        removeAllCard,
         handleClearCart,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}
-    </CartContext.Provider>
+    </CartContextReducer.Provider>
   );
 };
 
-export const useCart = () => useContext(CartContext);
+export const useCart = () => useContext(CartContextReducer);

@@ -1,9 +1,11 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import Header from "../Header/Header";
 import SortItem from "./SortItem/SortItem";
 import CarCard from "../CarCard/CarCard";
 import "./sort.scss";
 import Spinner from "../UI/Spinner/Spinner";
+import { useCart } from "../../context/CartContextReducer";
 
 const sortItem = [
   {
@@ -56,8 +58,9 @@ const Sort = ({
   setSortBy,
   openCart,
   setOpenCart,
-  isLoading,
 }) => {
+  const { isLoading } = useCart();
+
   return (
     <>
       <div className="bg-wrapper">
@@ -153,4 +156,4 @@ const Sort = ({
   );
 };
 
-export default Sort;
+export default memo(Sort);

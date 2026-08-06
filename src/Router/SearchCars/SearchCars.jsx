@@ -3,10 +3,10 @@ import "./searchcar.scss";
 import CarCard from "../../components/CarCard/CarCard";
 import { useRef } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContextReducer";
 
-const SearchCars = ({ searchCar, setSearchCar, isLoading }) => {
-  const { cars } = useCart();
+const SearchCars = ({ searchCar, setSearchCar }) => {
+  const { cars, isLoading } = useCart();
   const scrollRef = useRef(null);
 
   const handleWheel = (e) => {

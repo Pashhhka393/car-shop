@@ -3,11 +3,10 @@ import { Link, useParams } from "react-router-dom";
 import CharacterCar from "./CharacterCar/CharacterCar";
 import SetCarPage from "./SetCatPage/SetCarPage";
 import "./carpage.scss";
-import ModalWindow from "../UI/ModalWindow/ModalWindow";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContextReducer";
 
 const CarPage = ({ addCarToFavourite }) => {
-  const { cars, addCarToCart, modalWindowCartOpen } = useCart();
+  const { cars, addCarToCart } = useCart();
   const { id } = useParams();
   const car = cars.find((c) => c.id == Number(id));
 
@@ -124,7 +123,6 @@ const CarPage = ({ addCarToFavourite }) => {
           </div>
         </div>
       </div>
-      {modalWindowCartOpen ? <ModalWindow car={car} /> : ""}
     </div>
   );
 };

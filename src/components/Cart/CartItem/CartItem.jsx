@@ -1,4 +1,4 @@
-import { useCart } from "../../../context/CartContext";
+import { useCart } from "../../../context/CartContextReducer";
 import "./cartitem.scss";
 
 const CartItem = ({ car }) => {

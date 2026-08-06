@@ -1,10 +1,12 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
 import "./header.scss";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/CartContextReducer";
 
 const Header = ({ filteredIsFavouriteCars, openCart, setOpenCart }) => {
-  const { cartItems } = useCart();
+  const { state } = useCart();
+  const cartItems = state?.cartItems || [];
+
   const handleMenuToggle = () => {
     setOpenCart(!openCart);
   };

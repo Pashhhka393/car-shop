@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../../context/CartContext";
 import CarCard from "../CarCard/CarCard";
 import "./carcards.scss";
 import Spinner from "../UI/Spinner/Spinner";
+import { useCart } from "../../context/CartContextReducer";
 
-const CarCards = ({ isLoading }) => {
-  const { cars } = useCart();
+const CarCards = ({ cars }) => {
+  const { isLoading } = useCart();
+
   return (
     <div className="car-sale">
       <h1>ГОРЯЧИЕ ПРЕДЛОЖЕНИЯ</h1>
