@@ -1,6 +1,6 @@
 export const API_URL = "https://cars-api-a83h.onrender.com/cars";
 
-export const addCar = async (car) => {
+export const addCar = async (car: { id: string | number }) => {
   const response = await fetch(`${API_URL}/${car.id}`, {
     method: "PATCH",
     headers: {
@@ -11,7 +11,7 @@ export const addCar = async (car) => {
   return response;
 };
 
-export const removeCar = async (id) => {
+export const removeCar = async (id: string | number) => {
   const response = await fetch(`${API_URL}/${id}`, {
     method: "PATCH",
     headers: {
@@ -22,7 +22,7 @@ export const removeCar = async (id) => {
   return response;
 };
 
-export const removeAll = async (car) => {
+export const removeAll = async (car: { id: string | number }) => {
   const response = await fetch(`${API_URL}/${car.id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },

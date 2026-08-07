@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
 import "./favourite.scss";
 import FavouriteItem from "./FavouriteItem/FavouriteItem";
+import { Car } from "../../types/car";
 
-const Favourite = ({ filteredIsFavouriteCars, removeFromFavourite }) => {
+interface FavouriteProps {
+  filteredIsFavouriteCars: Car[];
+  removeFromFavourite: (id: string | number) => void;
+}
+
+const Favourite = ({
+  filteredIsFavouriteCars,
+  removeFromFavourite,
+}: FavouriteProps) => {
   return (
     <>
       {filteredIsFavouriteCars.length === 0 ? (

@@ -1,7 +1,13 @@
 import "./sortitem.scss";
 
-const SortItem = ({ img, title, setSelectedBrand }) => {
-  const handleClick = (e) => {
+interface SortItemProps {
+  img: string;
+  title: string;
+  setSelectedBrand: (brand: string) => void;
+}
+
+const SortItem = ({ img, title, setSelectedBrand }: SortItemProps) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     setSelectedBrand(title);
   };

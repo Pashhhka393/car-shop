@@ -3,8 +3,13 @@ import CarCard from "../CarCard/CarCard";
 import "./carcards.scss";
 import Spinner from "../UI/Spinner/Spinner";
 import { useCart } from "../../context/CartContextReducer";
+import { Car } from "../../types/car";
 
-const CarCards = ({ cars }) => {
+interface CarCardsProps {
+  cars: Car[];
+}
+
+const CarCards = ({ cars }: CarCardsProps) => {
   const { isLoading } = useCart();
 
   return (

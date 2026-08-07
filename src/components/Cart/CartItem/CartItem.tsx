@@ -1,7 +1,12 @@
 import { useCart } from "../../../context/CartContextReducer";
+import { Car } from "../../../types/car";
 import "./cartitem.scss";
 
-const CartItem = ({ car }) => {
+interface CartItemProps {
+  car: Car;
+}
+
+const CartItem = ({ car }: CartItemProps) => {
   const { removeFromCard } = useCart();
 
   return (

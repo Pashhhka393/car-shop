@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import "./header.scss";
 import { useCart } from "../../context/CartContextReducer";
 
-const Header = ({ filteredIsFavouriteCars, openCart, setOpenCart }) => {
+interface HeaderProps {
+  filteredIsFavouriteCars: any[];
+  openCart: boolean;
+  setOpenCart: (open: boolean) => void;
+}
+
+const Header = ({
+  filteredIsFavouriteCars,
+  openCart,
+  setOpenCart,
+}: HeaderProps) => {
   const { state } = useCart();
   const cartItems = state?.cartItems || [];
 

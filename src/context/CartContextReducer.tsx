@@ -5,18 +5,42 @@ import {
   useContext,
   useCallback,
   useEffect,
+  ReactNode,
 } from "react";
 import { addCar, removeAll, removeCar, API_URL } from "../api/cars";
+import { Car } from "../types/car";
 
-const CartContextReducer = createContext();
+type CartAction =
+  | { type: "ADD_TO_CART"; payload: Car }
+  | { type: "REMOVE_FROM_CART"; payload: string | number }
+  | { type: "CLEAR_CART" };
 
-const initialState = {
+interface CartState {
+  cartItems: Car[];
+}
+
+interface CartContextType {
+  state: CartState;
+  dispatch: React.Dispatch<CartAction>;
+  cars: Car[];
+  setCars: React.Dispatch<React.SetStateAction<Car[]>>;
+  addCarToCart: (car: Car) => Promise<void>;
+  removeFromCard: (id: string | number) => Promise<void>;
+  handleClearCart: () => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CartContextReducer = createContext<CartContextType | null>(null);
+
+const initialState: CartState = {
   cartItems: (() => {
     const saved = localStorage.getItem("cartItems");
     return saved ? JSON.parse(saved) : [];
   })(),
 };
-function cartReducer(state, action) {
+
+function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "ADD_TO_CART":
       return { ...state, cartItems: [...state.cartItems, action.payload] };
@@ -29,21 +53,22 @@ function cartReducer(state, action) {
 
     case "CLEAR_CART":
       return { ...state, cartItems: [] };
+
     default:
       return state;
   }
 }
 
-export const CartProvider = ({ children }) => {
+export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(cartReducer, initialState);
-  const [cars, setCars] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [cars, setCars] = useState<Car[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(API_URL);
-        const data = await response.json();
+        const data: Car[] = await response.json();
         setCars(data);
         setIsLoading(false);
       } catch (error) {
@@ -53,7 +78,7 @@ export const CartProvider = ({ children }) => {
     fetchData();
   }, []);
 
-  const addCarToCart = useCallback(async (car) => {
+  const addCarToCart = useCallback(async (car: Car) => {
     try {
       const response = await addCar(car);
       if (!response.ok) {
@@ -61,7 +86,7 @@ export const CartProvider = ({ children }) => {
         throw new Error(`Server error ${response.status}: ${text}`);
       }
 
-      const updateCar = await response.json();
+      const updateCar: Car = await response.json();
       setCars((prev) =>
         prev.map((item) => (car.id === item.id ? updateCar : item)),
       );
@@ -71,14 +96,14 @@ export const CartProvider = ({ children }) => {
     }
   }, []);
 
-  const removeFromCard = useCallback(async (id) => {
+  const removeFromCard = useCallback(async (id: string | number) => {
     try {
       const response = await removeCar(id);
       if (!response.ok) {
         throw new Error(`Server error: ${response.status}`);
       }
 
-      const updCar = await response.json();
+      const updCar: Car = await response.json();
 
       setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
       dispatch({ type: "REMOVE_FROM_CART", payload: id });
@@ -89,8 +114,11 @@ export const CartProvider = ({ children }) => {
 
   const removeAllCard = useCallback(async () => {
     try {
-      const updatedCars = await Promise.all(
-        state.cartItems.map((car) => removeAll(car)).then((res) => res.json()),
+      const responses = await Promise.all(
+        state.cartItems.map((car) => removeAll(car)),
+      );
+      const updatedCars: Car[] = await Promise.all(
+        responses.map((res) => res.json()),
       );
 
       setCars((prev) =>
@@ -110,7 +138,7 @@ export const CartProvider = ({ children }) => {
     if (userAnswer) {
       await removeAllCard();
     }
-  }, []);
+  }, [removeAllCard]);
 
   return (
     <CartContextReducer.Provider
@@ -131,4 +159,10 @@ export const CartProvider = ({ children }) => {
   );
 };
 
-export const useCart = () => useContext(CartContextReducer);
+export const useCart = (): CartContextType => {
+  const context = useContext(CartContextReducer);
+  if (!context) {
+    throw new Error("useCart должен использоваться внутри CartProvider");
+  }
+  return context;
+};

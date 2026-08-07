@@ -1,6 +1,11 @@
 import "./charactercar.scss";
 
-const CharacterCar = ({ title, valueTitle }) => {
+interface CharacterCar {
+  title: string;
+  valueTitle: string | number;
+}
+
+const CharacterCar = ({ title, valueTitle }: CharacterCar) => {
   return (
     <div className="specifications-item">
       <p className="type">{title}</p>

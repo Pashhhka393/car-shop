@@ -1,6 +1,11 @@
+import { Car } from "../../types/car";
 import "./carcard.scss";
 
-const CarCard = ({ car }) => {
+interface CarCardProps {
+  car: Car;
+}
+
+const CarCard = ({ car }: CarCardProps) => {
   return (
     <div className="card-car search-color">
       <div className="title">

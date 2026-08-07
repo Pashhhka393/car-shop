@@ -5,11 +5,16 @@ import { useRef } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { useCart } from "../../context/CartContextReducer";
 
-const SearchCars = ({ searchCar, setSearchCar }) => {
-  const { cars, isLoading } = useCart();
-  const scrollRef = useRef(null);
+interface SearchCarsProps {
+  searchCar: string;
+  setSearchCar: (search: string) => void;
+}
 
-  const handleWheel = (e) => {
+const SearchCars = ({ searchCar, setSearchCar }: SearchCarsProps) => {
+  const { cars, isLoading } = useCart();
+  const scrollRef = useRef<HTMLDivElement | null>(null);
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (scrollRef.current) {
       e.preventDefault();
       scrollRef.current.scrollLeft += e.deltaY;
@@ -25,7 +30,7 @@ const SearchCars = ({ searchCar, setSearchCar }) => {
         <h1 className="search__title">Поиск автомобилей</h1>
         <p className="search__subtitle">Найдите автомобиль по названию</p>
 
-        <form className="search__form">
+        <form className="search__form" onSubmit={(e) => e.preventDefault()}>
           <input
             value={searchCar}
             type="text"
@@ -42,7 +47,7 @@ const SearchCars = ({ searchCar, setSearchCar }) => {
             )
             .map((car) => (
               <Link key={car.id} to={`/car/${car.id}`}>
-                <CarCard key={car.id} car={car} />
+                <CarCard car={car} />
               </Link>
             ))}
         </div>

@@ -1,6 +1,12 @@
 import "./setcarpage.scss";
 
-const SetCarPage = ({ img, firstTitle, secondTitle }) => {
+interface SetCarPageProps {
+  img: string;
+  firstTitle: string;
+  secondTitle: string | number;
+}
+
+const SetCarPage = ({ img, firstTitle, secondTitle }: SetCarPageProps) => {
   return (
     <div className="settings_car-item">
       <div className="img-wrapper">

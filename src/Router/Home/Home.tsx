@@ -1,7 +1,19 @@
 import Header from "../../components/Header/Header";
 import CarCards from "../../components/CarCards/CarCards";
 
-const Home = ({ cars, filteredIsFavouriteCars, openCart, setOpenCart }) => {
+interface HomeProps {
+  cars: any[];
+  filteredIsFavouriteCars: any[];
+  openCart: boolean;
+  setOpenCart: (open: boolean) => void;
+}
+
+const Home = ({
+  cars,
+  filteredIsFavouriteCars,
+  openCart,
+  setOpenCart,
+}: HomeProps) => {
   return (
     <>
       <div className="bg-wrapper">

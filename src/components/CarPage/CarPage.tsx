@@ -4,11 +4,16 @@ import CharacterCar from "./CharacterCar/CharacterCar";
 import SetCarPage from "./SetCatPage/SetCarPage";
 import "./carpage.scss";
 import { useCart } from "../../context/CartContextReducer";
+import { Car } from "../../types/car";
 
-const CarPage = ({ addCarToFavourite }) => {
+interface CarPageProps {
+  addCarToFavourite: (car: Car) => void;
+}
+
+const CarPage = ({ addCarToFavourite }: CarPageProps) => {
   const { cars, addCarToCart } = useCart();
-  const { id } = useParams();
-  const car = cars.find((c) => c.id == Number(id));
+  const { id } = useParams<{ id: string }>();
+  const car = cars.find((c) => c.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);

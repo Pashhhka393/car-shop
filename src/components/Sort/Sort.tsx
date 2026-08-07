@@ -6,8 +6,25 @@ import CarCard from "../CarCard/CarCard";
 import "./sort.scss";
 import Spinner from "../UI/Spinner/Spinner";
 import { useCart } from "../../context/CartContextReducer";
+import { Car } from "../../types/car";
+import { SortOption } from "../../App";
 
-const sortItem = [
+interface SortProps {
+  cars: Car[];
+  filteredIsFavouriteCars: Car[];
+  setSelectedBrand: (brand: string) => void;
+  sortBy: null | SortOption;
+  setSortBy: (sortType: SortOption | null) => void;
+  openCart: boolean;
+  setOpenCart: (open: boolean) => void;
+}
+interface SortBrandItem {
+  id: number;
+  img: string;
+  title: string;
+}
+
+const sortItem: SortBrandItem[] = [
   {
     id: 1,
     img: "/sort-lambo.svg",
@@ -58,7 +75,7 @@ const Sort = ({
   setSortBy,
   openCart,
   setOpenCart,
-}) => {
+}: SortProps) => {
   const { isLoading } = useCart();
 
   return (
@@ -82,7 +99,7 @@ const Sort = ({
             <button
               onClick={() => {
                 setSelectedBrand("");
-                setSortBy("");
+                setSortBy(null);
               }}
             >
               Сбросить фильтр
@@ -107,7 +124,7 @@ const Sort = ({
                   <button
                     className={`${sortBy === "price-asc" ? "active" : ""}`}
                     onClick={() =>
-                      setSortBy(sortBy === "price-asc" ? "" : "price-asc")
+                      setSortBy(sortBy === "price-asc" ? null : "price-asc")
                     }
                   >
                     Цена ↑{" "}
@@ -115,7 +132,7 @@ const Sort = ({
                   <button
                     className={`${sortBy === "price-desc" ? "active" : ""}`}
                     onClick={() =>
-                      setSortBy(sortBy === "price-desc" ? "" : "price-desc")
+                      setSortBy(sortBy === "price-desc" ? null : "price-desc")
                     }
                   >
                     Цена ↓
@@ -123,7 +140,7 @@ const Sort = ({
                   <button
                     className={`${sortBy === "year-asc" ? "active" : ""}`}
                     onClick={() =>
-                      setSortBy(sortBy === "year-asc" ? "" : "year-asc")
+                      setSortBy(sortBy === "year-asc" ? null : "year-asc")
                     }
                   >
                     Год ↑
@@ -131,7 +148,7 @@ const Sort = ({
                   <button
                     className={`${sortBy === "year-desc" ? "active" : ""}`}
                     onClick={() =>
-                      setSortBy(sortBy === "year-desc" ? "" : "year-desc")
+                      setSortBy(sortBy === "year-desc" ? null : "year-desc")
                     }
                   >
                     Год ↓
@@ -144,7 +161,7 @@ const Sort = ({
         {isLoading && <Spinner />}
         <div className="all-cars">
           <div className="sort-cards-cars">
-            {cars.map((c) => (
+            {cars.map((c: Car) => (
               <Link to={`/car/${c.id}`} key={c.id}>
                 <CarCard car={c} />
               </Link>

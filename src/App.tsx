@@ -8,60 +8,75 @@ import Favourite from "./components/Favourite/Favourite";
 import Sort from "./components/Sort/Sort";
 import { useCart } from "./context/CartContextReducer";
 import { API_URL } from "./api/cars";
+import { Car } from "./types/car";
+
+export type SortOption = "price-asc" | "price-desc" | "year-asc" | "year-desc";
 
 const App = () => {
   const { cars, setCars } = useCart();
 
-  const [filteredIsFavouriteCars, setFilteredIsFavouriteCars] = useState(() => {
-    const saveFavourite = localStorage.getItem("favouriteCars");
-    try {
-      return saveFavourite ? JSON.parse(saveFavourite) : [];
-    } catch (e) {
-      console.log(e);
-      return [];
-    }
-  });
+  const [filteredIsFavouriteCars, setFilteredIsFavouriteCars] = useState<Car[]>(
+    () => {
+      const saveFavourite = localStorage.getItem("favouriteCars");
+      try {
+        return saveFavourite ? JSON.parse(saveFavourite) : [];
+      } catch (e) {
+        console.log(e);
+        return [];
+      }
+    },
+  );
 
-  const [searchCar, setSearchCar] = useState("");
+  const [searchCar, setSearchCar] = useState<string>("");
 
   const [selectedBrand, setSelectedBrand] = useState("");
-  const [sortBy, setSortBy] = useState(null);
+  const [sortBy, setSortBy] = useState<SortOption | null>(null);
 
-  const [openCart, setOpenCart] = useState(false);
+  const [openCart, setOpenCart] = useState<boolean>(false);
 
   useEffect(() => {
     localStorage.setItem(
       "favouriteCars",
       JSON.stringify(filteredIsFavouriteCars),
     );
-  });
+  }, [filteredIsFavouriteCars]);
 
-  const addCarToFavourite = useCallback(async (car) => {
-    const response = await fetch(`${API_URL}/${car.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isFavourite: true }),
-    });
+  const addCarToFavourite = useCallback(
+    async (car: Car) => {
+      const response = await fetch(`${API_URL}/${car.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isFavourite: true }),
+      });
 
-    const updCar = await response.json();
-    setCars((prev) => prev.map((item) => (car.id === item.id ? updCar : item)));
-    setFilteredIsFavouriteCars((prev) => [...prev, updCar]);
-  }, []);
-  const removeFromFavourite = async (id) => {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ isFavourite: false }),
-    });
+      const updCar = await response.json();
+      setCars((prev) =>
+        prev.map((item) => (car.id === item.id ? updCar : item)),
+      );
+      setFilteredIsFavouriteCars((prev: Car[]) => [...prev, updCar]);
+    },
+    [setCars, setFilteredIsFavouriteCars],
+  );
+  const removeFromFavourite = useCallback(
+    async (id: string | number) => {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ isFavourite: false }),
+      });
 
-    const updCar = await response.json();
-    setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
-    setFilteredIsFavouriteCars((prev) => prev.filter((i) => i.id !== id));
-  };
+      const updCar = await response.json();
+      setCars((prev) => prev.map((item) => (id === item.id ? updCar : item)));
+      setFilteredIsFavouriteCars((prev: Car[]) =>
+        prev.filter((i) => i.id !== id),
+      );
+    },
+    [setCars, setFilteredIsFavouriteCars],
+  );
 
   const filteredCars = useMemo(() => {
     return cars.filter((c) => {

@@ -1,4 +1,11 @@
-const FavouriteItem = ({ car, removeFromFavourite }) => {
+import { Car } from "../../../types/Car";
+
+interface FavouriteItemProps {
+  car: Car;
+  removeFromFavourite: (id: string | number) => void;
+}
+
+const FavouriteItem = ({ car, removeFromFavourite }: FavouriteItemProps) => {
   return (
     <div className="cart-item">
       <div className="cart__img-wrapper">
@@ -23,7 +30,10 @@ const FavouriteItem = ({ car, removeFromFavourite }) => {
           <p>Цена: {car.price} рублей</p>
         </div>
       </div>
-      <button className="delete-car" onClick={() => removeFromFavourite(car.id)}>
+      <button
+        className="delete-car"
+        onClick={() => removeFromFavourite(car.id)}
+      >
         Удалить
       </button>
     </div>
